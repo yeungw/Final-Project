@@ -12,16 +12,11 @@ unsigned window_y = 600;
 unsigned window_start_x = 200;
 unsigned window_start_y = 100;
 
-// window_name = 'My First SDL2 Game!';
-
 double vertical = 0.5;
 double horizontal = 0.5;
-double player_height = .15;
-double player_width  = .03;
+
 double player_speed = 0.01;
 
-double player_height_2 = .08;
-double player_width_2  = .10;
 
 int player_down = 0;
 int player_right = 0;
@@ -31,39 +26,6 @@ int player_left = 0;
 int hit = 1;
 
 SDL_Renderer *renderer;
-
-Texture loadImage(char* image){
-   SDL_Surface *loadedImage = IMG_Load(image);
-   if(!loadedImage) {
-      printf("Failed to load image: %s\n", SDL_GetError() );
-      SDL_Quit();
-      exit(1);
-   }
-   Texture texture = SDL_CreateTextureFromSurface(renderer, loadedImage);
-   SDL_FreeSurface(loadedImage);
-   if(!texture) {
-      printf("Failed to create texture: %s\n", SDL_GetError() );
-      SDL_Quit();
-      exit(1);
-   }
-   return texture;
-}
-
-// void displayTexture(Texture t, unsigned x, unsigned y, unsigned width, unsigned height, SDL_RendererFlip flip){
-//    SDL_Rect tex_size;
-//    tex_size.x = 0;
-//    tex_size.y = 0;
-//    SDL_Rect toplace;
-//    toplace.x = x;
-//    toplace.y = y;
-//    toplace.w = width;
-//    toplace.h = height;
-//    SDL_QueryTexture(t, NULL, NULL, &tex_size.w, &tex_size.h);
-//    SDL_RenderCopyEx(renderer,t,&tex_size,&toplace,0,NULL,flip);
-// }
-
-//Texture background_image, player_image;
-// Texture player_image, player_image_2;
 
 int main( int argc, char* argv[] ){
    if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -94,8 +56,6 @@ int main( int argc, char* argv[] ){
    if(!laser){
         printf("Could not open sound effect %s\n", Mix_GetError());
    }
-
-   //image_name = loadImage("image.png");
 
    //Our event structure
    SDL_Event e;
@@ -143,8 +103,8 @@ int main( int argc, char* argv[] ){
       SDL_Rect block;
       block.x = horizontal*rectangle.w;
       block.y = vertical*rectangle.h;
-      block.w = 25*hit;
-      block.h = 25*hit;
+      block.w = 5*hit;
+      block.h = 5*hit;
       SDL_RenderFillRect(renderer, &block);
 
       int x;
@@ -180,10 +140,8 @@ int main( int argc, char* argv[] ){
           obstacle_1.x = rand()%window_x;
           obstacle_1.y = rand()%window_y;
       }
-
       SDL_RenderFillRect(renderer, &obstacle_1);
 
-      //displayTexture(image, x-position, y-position, width, height, SDL_FLIP_NONE);
       SDL_RenderPresent(renderer);
 
       if (hit == 0) {
