@@ -103,8 +103,8 @@ int main( int argc, char* argv[] ){
       SDL_Rect block;
       block.x = horizontal*rectangle.w;
       block.y = vertical*rectangle.h;
-      block.w = 10*scale_factor;
-      block.h = 10*scale_factor;
+      block.w =  10*scale_factor;
+      block.h =  10*scale_factor;
       SDL_RenderFillRect(renderer, &block);
 
       int x;
@@ -118,7 +118,8 @@ int main( int argc, char* argv[] ){
           reward_1.w = 25;
           reward_1.h = 25;
       }
-      if (abs(reward_1.x-block.x)<((block.w/2+reward_1.w/2)) && abs(reward_1.y-block.y)<((block.h/2+reward_1.h/2))) {
+      if (abs(reward_1.x-block.x)<((double (block.w+reward_1.w))/2) && (abs(reward_1.y-block.y)<((double(block.h+reward_1.h))/2))) {
+        //   (block.w/2+reward_1.w/2)) && abs(reward_1.y-block.y)<((block.h/2+reward_1.h/2)))
           Mix_PlayChannel( -1, ding, 0 );
           if (scale_factor < 30) {
               scale_factor += .5;
@@ -138,7 +139,7 @@ int main( int argc, char* argv[] ){
           obstacle_1.w = 25;
           obstacle_1.h = 25;
       }
-      if ((abs(obstacle_1.x-block.x)<((block.w/2+obstacle_1.w/2))) && (abs(obstacle_1.y-block.y)<((obstacle_1.h/2+block.h/2)))) {
+      if (abs(obstacle_1.x-block.x)<((double (block.w+obstacle_1.w))/2) && (abs(obstacle_1.y-block.y)<((double(obstacle_1.h+block.h))/2))) {
           Mix_PlayChannel( -1, fail, 0 );
           scale_factor -= 1;
           obstacle_1.x = rand()%window_x;
@@ -154,7 +155,8 @@ int main( int argc, char* argv[] ){
           obstacle_2.w = 25;
           obstacle_2.h = 25;
       }
-      if ((abs(obstacle_2.x-block.x)<((block.w/2+obstacle_2.w/2))) && (abs(obstacle_2.y-block.y)<((obstacle_2.h/2+block.h/2)))) {
+      if (abs(obstacle_2.x-block.x)<((double (block.w+obstacle_2.w))/2) && (abs(obstacle_2.y-block.y)<((double(block.h+obstacle_2.h))/2))) {
+    //   if ((abs(obstacle_2.x-block.x)<((block.w/2+obstacle_2.w/2))) && (abs(obstacle_2.y-block.y)<((obstacle_2.h/2+block.h/2)))) {
           Mix_PlayChannel( -1, fail, 0 );
           scale_factor -= 1;
           obstacle_2.x = rand()%window_x;
@@ -169,7 +171,8 @@ int main( int argc, char* argv[] ){
           obstacle_3.w = 25;
           obstacle_3.h = 25;
       }
-      if ((abs(obstacle_3.x-block.x)<((block.w/2+obstacle_3.w/2))) && (abs(obstacle_3.y-block.y)<((obstacle_3.h/2+block.h/2)))) {
+      if (abs(obstacle_3.x-block.x)<((double (block.w+obstacle_3.w))/2) && (abs(obstacle_3.y-block.y)<((double(block.h+obstacle_3.h))/2))) {
+    //   if ((abs(obstacle_3.x-block.x)<((block.w/2+obstacle_3.w/2))) && (abs(obstacle_3.y-block.y)<((obstacle_3.h/2+block.h/2)))) {
           Mix_PlayChannel( -1, fail, 0 );
           scale_factor -= 1;
           obstacle_3.x = rand()%window_x;
