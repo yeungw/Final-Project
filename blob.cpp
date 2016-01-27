@@ -49,8 +49,13 @@ int main( int argc, char* argv[] ){
         return 1;
    }
 
-   Mix_Chunk *laser = Mix_LoadWAV("laser.wav");
-   if(!laser){
+   Mix_Chunk *fail = Mix_LoadWAV("fail.wav");
+   if(!fail){
+        printf("Could not open sound effect %s\n", Mix_GetError());
+   }
+
+   Mix_Chunk *ding = Mix_LoadWAV("Ding.wav");
+   if(!ding){
         printf("Could not open sound effect %s\n", Mix_GetError());
    }
 
@@ -62,8 +67,6 @@ int main( int argc, char* argv[] ){
          if (e.type == SDL_QUIT) quit = 1;
          else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
             switch(e.key.keysym.sym){
-            //    case SDLK_1:
-            //       if(e.type == SDL_KEYDOWN) Mix_PlayChannel( -1, laser, 0 ); break;
                case SDLK_LEFT:
                   player_left = (e.type == SDL_KEYDOWN); break;
                case SDLK_RIGHT:
@@ -100,8 +103,8 @@ int main( int argc, char* argv[] ){
       SDL_Rect block;
       block.x = horizontal*rectangle.w;
       block.y = vertical*rectangle.h;
-      block.w = 5*scale_factor;
-      block.h = 5*scale_factor;
+      block.w = 10*scale_factor;
+      block.h = 10*scale_factor;
       SDL_RenderFillRect(renderer, &block);
 
       int x;
@@ -109,15 +112,15 @@ int main( int argc, char* argv[] ){
       x = rand()%15;
       SDL_SetRenderDrawColor(renderer,0,0,255,255);
       SDL_Rect reward_1;
-      if (x==5) {
+      if (x==5  || x==12) {
           reward_1.x = rand()%window_x;
           reward_1.y = rand()%window_y;
           reward_1.w = 25;
           reward_1.h = 25;
       }
       if (abs(reward_1.x-block.x)<((block.w/2+reward_1.w/2)) && abs(reward_1.y-block.y)<((block.h/2+reward_1.h/2))) {
-          Mix_PlayChannel( -1, laser, 0 );
-          if (scale_factor < 9) {
+          Mix_PlayChannel( -1, ding, 0 );
+          if (scale_factor < 30) {
               scale_factor += .5;
           } else {
               scale_factor = scale_factor;
@@ -127,7 +130,7 @@ int main( int argc, char* argv[] ){
       }
       SDL_RenderFillRect(renderer, &reward_1);
 
-      SDL_SetRenderDrawColor(renderer,255,165,0,255);
+      SDL_SetRenderDrawColor(renderer,255,0,0,255);
       SDL_Rect obstacle_1;
       if (x==9) {
           obstacle_1.x = rand()%window_x;
@@ -135,28 +138,44 @@ int main( int argc, char* argv[] ){
           obstacle_1.w = 25;
           obstacle_1.h = 25;
       }
-      if ((abs(obstacle_1.x-block.x)<((block.w/2+obstacle_1.w/2))) && (abs(obstacle_1.y-block.y)<((obstacle_1.h/2+reward_1.h/2)))) {
+      if ((abs(obstacle_1.x-block.x)<((block.w/2+obstacle_1.w/2))) && (abs(obstacle_1.y-block.y)<((obstacle_1.h/2+block.h/2)))) {
+          Mix_PlayChannel( -1, fail, 0 );
           scale_factor -= 1;
           obstacle_1.x = rand()%window_x;
           obstacle_1.y = rand()%window_y;
-          Mix_PlayChannel( -1, laser, 0 );
 
       }
       SDL_RenderFillRect(renderer, &obstacle_1);
 
-    //   SDL_Rect obstacle_2;
-    //   if (x==2) {
-    //       obstacle_2.x = rand()%window_x;
-    //       obstacle_2.y = rand()%window_y;
-    //       obstacle_2.w = 25;
-    //       obstacle_2.h = 25;
-    //   }
-    //   if ((abs(obstacle_2.x-block.x)<((block.w/2+obstacle_2.w/2))) && (abs(obstacle_2.y-block.y)<((obstacle_2.h/2+reward_1.h/2)))) {
-    //       scale_factor -= 1;
-    //       obstacle_2.x = rand()%window_x;
-    //       obstacle_2.y = rand()%window_y;
-    //   }
-    //   SDL_RenderFillRect(renderer, &obstacle_2);
+      SDL_Rect obstacle_2;
+      if (x==2) {
+          obstacle_2.x = rand()%window_x;
+          obstacle_2.y = rand()%window_y;
+          obstacle_2.w = 25;
+          obstacle_2.h = 25;
+      }
+      if ((abs(obstacle_2.x-block.x)<((block.w/2+obstacle_2.w/2))) && (abs(obstacle_2.y-block.y)<((obstacle_2.h/2+block.h/2)))) {
+          Mix_PlayChannel( -1, fail, 0 );
+          scale_factor -= 1;
+          obstacle_2.x = rand()%window_x;
+          obstacle_2.y = rand()%window_y;
+      }
+      SDL_RenderFillRect(renderer, &obstacle_2);
+
+      SDL_Rect obstacle_3;
+      if (x==7) {
+          obstacle_3.x = rand()%window_x;
+          obstacle_3.y = rand()%window_y;
+          obstacle_3.w = 25;
+          obstacle_3.h = 25;
+      }
+      if ((abs(obstacle_3.x-block.x)<((block.w/2+obstacle_3.w/2))) && (abs(obstacle_3.y-block.y)<((obstacle_3.h/2+block.h/2)))) {
+          Mix_PlayChannel( -1, fail, 0 );
+          scale_factor -= 1;
+          obstacle_3.x = rand()%window_x;
+          obstacle_3.y = rand()%window_y;
+      }
+      SDL_RenderFillRect(renderer, &obstacle_3);
 
       SDL_RenderPresent(renderer);
 
