@@ -23,7 +23,7 @@ int player_right = 0;
 int player_up = 0;
 int player_left = 0;
 
-int hit = 1;
+double hit = 1;
 
 SDL_Renderer *renderer;
 
@@ -119,8 +119,10 @@ int main( int argc, char* argv[] ){
           reward_1.h = 25;
       }
       if (abs(reward_1.x-block.x)<((block.w/2+reward_1.w/2)) && abs(reward_1.y-block.y)<((block.h/2+reward_1.h/2))) {
-          if (hit < 5) {
-              hit += 1;
+          if (hit < 9) {
+              hit += .5;
+          } else {
+              hit = hit;
           }
           reward_1.x = rand()%window_x;
           reward_1.y = rand()%window_y;
@@ -135,8 +137,8 @@ int main( int argc, char* argv[] ){
           obstacle_1.w = 25;
           obstacle_1.h = 25;
       }
-      if (abs(obstacle_1.x-block.x)<((block.w/2+obstacle_1.w/2)) && abs(obstacle_1.y-block.y)<((obstacle_1.h/2+reward_1.h/2))) {
-          hit -= 1;
+      if ((abs(obstacle_1.x-block.x)<((block.w/2+obstacle_1.w/2))) && (abs(obstacle_1.y-block.y)<((obstacle_1.h/2+reward_1.h/2)))) {
+          scale_factor -= 1;
           obstacle_1.x = rand()%window_x;
           obstacle_1.y = rand()%window_y;
       }
